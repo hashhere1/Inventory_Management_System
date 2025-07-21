@@ -4,10 +4,12 @@ import models
 from schemas import categories
 from database import get_db
 from sqlalchemy.orm import Session
+from auth.oauth2 import get_current_user
 
 router = APIRouter(
     tags=["Categories"],
-    prefix="/category"
+    prefix="/category",
+    dependencies=[Depends(get_current_user)]
 )
 
 

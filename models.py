@@ -3,6 +3,7 @@ from database import Base
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, DECIMAL
 from datetime import datetime
 
+#models that will be converted into tables using the sqlalchemy later!
 class Users(Base):
     __tablename__ = "users"
 

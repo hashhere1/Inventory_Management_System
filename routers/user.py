@@ -4,8 +4,12 @@ from sqlalchemy.orm import Session
 from database import get_db
 import models
 from repository import user
+from auth.oauth2 import get_current_user
 
-router = APIRouter(tags=["Users"], prefix="/user")
+router = APIRouter(
+    tags=["Users"],
+    prefix="/user"
+)
 
 
 @router.post("/create")
@@ -14,20 +18,20 @@ def create(request: users.CreateUser, db: Session = Depends(get_db)):
 
 
 @router.get("/show")
-def show_all(db: Session = Depends(get_db)):
+def show_all(db: Session = Depends(get_db),current_user: users = Depends(get_current_user)):
     return db.query(models.Users).all()
 
 
 @router.get("/show_by_id/{user_id}")
-def show(user_id: int, db: Session = Depends(get_db)):
+def show(user_id: int, db: Session = Depends(get_db),current_user: users = Depends(get_current_user)):
     return user.show_by_id(user_id, db)
 
 
 @router.put("/update/{user_id}")
-def update(user_id: int, request: users.UpdateUser, db: Session = Depends(get_db)):
+def update(user_id: int, request: users.UpdateUser, db: Session = Depends(get_db),current_user: users = Depends(get_current_user)):
     return user.update(user_id, request, db)
 
 
 @router.delete("/delete/{user_id}")
-def delete(user_id: int, db: Session = Depends(get_db)):
+def delete(user_id: int, db: Session = Depends(get_db),current_user: users = Depends(get_current_user)):
     return user.delete(user_id, db)

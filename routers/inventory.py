@@ -1,6 +1,6 @@
 from fastapi import APIRouter,Depends
 from repository import inventory
-
+from auth.oauth2 import get_current_user
 import models
 from database import get_db
 from sqlalchemy.orm import Session
@@ -8,7 +8,8 @@ from schemas import inventories
 
 router = APIRouter(
     tags=["Inventory"],
-    prefix="/inventory"
+    prefix="/inventory",
+    dependencies=[Depends(get_current_user)]
 )
 
 
