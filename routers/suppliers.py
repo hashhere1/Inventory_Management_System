@@ -4,6 +4,7 @@ from repository import supplier
 import models
 from database import get_db
 from schemas import suppliers
+from typing import List
 from auth.oauth2 import get_current_user
 
 router = APIRouter(
@@ -12,23 +13,23 @@ router = APIRouter(
     dependencies=[Depends(get_current_user)]
 )
 
-@router.post("/create")
+@router.post("/create", response_model=suppliers.SupplierResponse)
 def create(request: suppliers.CreateSupplier, db: Session = Depends(get_db)):
     return supplier.create(request, db)
 
-@router.get("/")
+@router.get("/", response_model=List[suppliers.SupplierResponse])
 def show(db: Session = Depends(get_db)):
    return db.query(models.Suppliers).all()
 
-@router.get("/by_id/{supplier_id}")
+@router.get("/by_id/{supplier_id}", response_model=suppliers.SupplierResponse)
 def show_by_id(supplier_id: int, db: Session = Depends(get_db)):
     return supplier.show_by_id(supplier_id, db)
 
-@router.put("/update/{supplier_id}")
+@router.put("/update/{supplier_id}", response_model=suppliers.SupplierResponse)
 def update(supplier_id: int, request: suppliers.UpdateSupplier, db: Session = Depends(get_db)):
     return supplier.update(supplier_id, request, db)
 
-@router.delete("/delete/{supplier_id}")
+@router.delete("/delete/{supplier_id}", response_model=suppliers.SupplierResponse)
 def delete(supplier_id: int, db: Session = Depends(get_db)):
     return supplier.delete(supplier_id, db)
 

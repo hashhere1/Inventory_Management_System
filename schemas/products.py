@@ -1,6 +1,11 @@
 from pydantic import BaseModel
 from typing import Optional
 from decimal import Decimal
+from datetime import datetime
+
+from schemas.categories import CategoryResponse
+from schemas.suppliers import SupplierResponse
+
 
 class CreateProduct(BaseModel):
     name: str
@@ -17,3 +22,17 @@ class UpdateProduct(BaseModel):
     supplier_id: Optional[int] = None
     cost_price: Optional[Decimal] = None
     selling_price: Optional[Decimal] = None
+
+class ProductResponse(BaseModel):
+    product_id: int
+    name: str
+    description: str
+    cost_price: Decimal
+    selling_price: Decimal
+    added_at: datetime
+
+    category: CategoryResponse
+    supplier: SupplierResponse
+
+    class Config:
+        orm_mode = True
