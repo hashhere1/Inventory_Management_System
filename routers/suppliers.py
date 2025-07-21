@@ -4,10 +4,12 @@ from repository import supplier
 import models
 from database import get_db
 from schemas import suppliers
+from auth.oauth2 import get_current_user
 
 router = APIRouter(
     tags=["Suppliers"],
-    prefix="/suppliers"
+    prefix="/suppliers",
+    dependencies=[Depends(get_current_user)]
 )
 
 @router.post("/create")

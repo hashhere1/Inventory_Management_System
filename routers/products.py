@@ -4,10 +4,12 @@ from repository import product
 import models
 from database import get_db
 from schemas import products
+from auth.oauth2 import get_current_user
 
 router = APIRouter(
     tags=["Products"],
-    prefix="/products"
+    prefix="/products",
+    dependencies=[Depends(get_current_user)]
 )
 
 
